@@ -1,8 +1,25 @@
 import { Link, Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
 import NavigationTabs from "../components/NavigationTabs";
+import { useQuery } from "@tanstack/react-query";
+
 
 export default function AppLayout() {
+  // react query tanstack libreria para obtener datos del servidor
+  // npm i @tanstack/react-query
+  // npm i @tanstack/react-query-devtools
+
+  // ventajas optimiza datos cachea consultas sincroniza
+  // se utiliza sobre fech o axios
+  // terminos
+  // Query: Se utilizan para obtener datos en un servidor o una api (GET)
+  // useQuery para obtener datos
+  // Mutation se utilizan para crear actualizar eliminad datos en el servidor CREATE UPDATE DELETE
+  // POST PUT DELETE useMutation
+
+  const {} = useQuery({
+    queryFn: 
+  })
   return (
     <>
       <header className="bg-slate-800 py-5">
