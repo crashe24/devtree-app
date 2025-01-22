@@ -2,6 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
 import NavigationTabs from "../components/NavigationTabs";
 import { useQuery } from "@tanstack/react-query";
+import { getUser } from "../api/DevTreeaPI";
 
 
 export default function AppLayout() {
@@ -17,9 +18,18 @@ export default function AppLayout() {
   // Mutation se utilizan para crear actualizar eliminad datos en el servidor CREATE UPDATE DELETE
   // POST PUT DELETE useMutation
 
-  const {} = useQuery({
-    queryFn: 
+  const {data, isLoading, error, isError} = useQuery({
+    queryFn: getUser,
+    queryKey: ['user'],
+    retry: 1, // cuantas veces se tiene que realizar el reintento de consulta por defecto son 3
+    refetchOnWindowFocus: false // que no haga un re consulta cuando se salga de la pagina y se vuelva a ingresar
   })
+
+  console.log(data)
+  console.log(isLoading)
+  console.log(isError)
+  console.log(error)
+
   return (
     <>
       <header className="bg-slate-800 py-5">
