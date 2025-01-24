@@ -83,3 +83,14 @@ export const getUser = async(req: Request, res: Response) => {
      console.log('desde get use', req.user)
      res.send(req.user) 
 }
+
+export const updateProfile = async(req:Request, res:Response) => {
+    try {
+        console.log('req.body', req.body)
+        res.send('listo acutalizacion ')
+    } catch (e) {
+        const error = new Error('Hubo un error : '.concat(e) )
+        res.status(500).json({error: error.message})
+        return 
+    }
+}
