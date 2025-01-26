@@ -2,8 +2,12 @@ export type UserType = {
     name: string;
     email: string;
     handle: string;
-   
+    _id: string;
+    description:string
+    image: string
 }
+
+export type ProfileForm = Pick<UserType, 'handle' | 'description'>
 
 export type RegisterForm = Pick<UserType, 'handle'| 'email'| 'name'> & {
     password: string;

@@ -1,10 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-export interface IUser {
+
+export interface IUser extends Document{
     handle: string;
     name: string;
     email: string;
     password: string;
+    description: string;
+    image: string;
 }
 // esquema
 const userSchema = new mongoose.Schema({
@@ -30,6 +33,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    description:{
+        type: String,
+        default: ''
+    },
+    image: {
+        type: String,
+        default: ''
     }
 })
 

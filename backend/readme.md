@@ -57,3 +57,14 @@ Este proyecto crea un servidor básico utilizando Express. El servidor responde 
 ### Archivos Principales
 
 - `index.js`: Archivo principal que configura y ejecuta el servidor Express.
+
+## dependencias para imagenes
+
+cloudynary
+npm i cloudinary
+formidable libreria para utilizar permite que express permita la subida de archivos
+npm i formidable
+
+cloud_name: process.env.CLOUDINARY_NAME,
+api_key: process.env.CLOUDINARY_KEY,
+api_secret: process.env.CLOUDINARY_SECRET, // Click 'View API Keys' above to copy your API secret
