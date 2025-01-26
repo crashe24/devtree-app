@@ -1,6 +1,6 @@
 // 3 es el router.ts
 import { Router } from "express";
-import { createAccount, getUser, login, updateProfile } from "./handlers";
+import { createAccount, getUser, login, updateProfile, uploadImage } from "./handlers";
 import { body } from "express-validator";
 import { handleInputErrors } from "./midleware/validation";
 import { authenticate } from "./midleware/auth";
@@ -38,8 +38,10 @@ router.get('/user', authenticate, getUser)
 
 router.patch('/user', 
     body('handle').notEmpty().withMessage('handle vacio'),
-    body('decription').notEmpty().withMessage('descripcion vacio'),
+    body('description').notEmpty().withMessage('descripcion vacio'),
     handleInputErrors,
     authenticate, 
     updateProfile)
+
+router.post('/user/image',authenticate,uploadImage)
 export default router;
