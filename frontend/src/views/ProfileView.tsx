@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import ErrorMessage from "../components/ErrorMessage";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { ProfileForm, UserType } from "../types";
-import { updateUser } from "../api/DevTreeaPI";
+import { updateUser, uploadImage } from "../api/DevTreeaPI";
 import { toast } from "sonner";
 
 export default function ProfileView() {
@@ -22,20 +22,44 @@ export default function ProfileView() {
 
   const updateProfile = useMutation({
     mutationFn: updateUser,
-    onError: (error) => { 
-      toast.error(error.message)
+    onError: (error) => {
+      toast.error(error.message);
     },
-    onSuccess: (data) => { 
-      toast.success(data)
-      // para invalidar lo cacheado y que se permita refrescar los datos modificados 
+    onSuccess: (data) => {
+      toast.success(data);
+      // para invalidar lo cacheado y que se permita refrescar los datos modificados
       // sin tener que recargar la pagina
-      queryClient.invalidateQueries({queryKey:['user']})
-    }
-  })
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+    },
+  });
 
+  const uploadImageMutation = useMutation({
+    mutationFn: uploadImage,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
+      //toast.success(data);
+      // console.log("data", data);
+      //queryClient.invalidateQueries({ queryKey: ["user"] });
+      //optimistic queries
+      queryClient.setQueryData(["user"], (prevData: UserType) => {
+        return {
+          ...prevData,
+          image: data.image,
+        };
+      });
+    },
+  });
   const handleUserProfileSubmit = (formData: ProfileForm) => {
     console.log(formData);
-    updateProfile.mutate(formData)
+    updateProfile.mutate(formData);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      uploadImageMutation.mutate(e.target.files[0]);
+    }
   };
 
   return (
@@ -81,7 +105,7 @@ export default function ProfileView() {
           name="handle"
           className="border-none bg-slate-100 rounded-lg p-2"
           accept="image/*"
-          onChange={() => {}}
+          onChange={(e) => handleChange(e)}
         />
       </div>
 

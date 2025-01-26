@@ -4,6 +4,7 @@ export type UserType = {
     handle: string;
     _id: string;
     description:string
+    image: string
 }
 
 export type ProfileForm = Pick<UserType, 'handle' | 'description'>

@@ -24,7 +24,7 @@ export async function updateUser(formData: ProfileForm) {
    
   try {
     // tiene un interceptor dentro de axios.ts
-    const { data } = await api.patch<String>(`/user`, formData);
+    const { data } = await api.patch<string>(`/user`, formData);
       console.log(data)
      return data 
     } catch (error) {
@@ -33,4 +33,19 @@ export async function updateUser(formData: ProfileForm) {
         throw new Error(error.response.data.error)
       }
     }
+}
+
+export async function uploadImage (file: File) {
+  const formData = new FormData()
+  formData.append('file',file)
+  try {
+   // const {data: {image}}: { data: {image:string}} = await api.post('/user/image',formData)
+   const {data} = await api.post('/user/image',formData)
+    return data
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      console.log("error", error.response.data.error);
+      throw new Error(error.response.data.error)
+    }
+  }
 }
