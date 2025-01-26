@@ -15,3 +15,13 @@ export type RegisterForm = Pick<UserType, 'handle'| 'email'| 'name'> & {
 }
 
 export type LoginForm = Pick<RegisterForm,'email' | 'password'>
+
+// types para devtreelinks
+export type SocialNetworkType = {
+    id:number;
+    name: string;
+    url: string;
+    enabled: boolean;
+}
+
+export type DevTreeLinkSocial = Pick<SocialNetworkType, 'name' | 'url' | 'enabled'>
