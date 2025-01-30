@@ -4,10 +4,22 @@ import { DevTreeInput } from "../components/DevTreeInput";
 import { DevTreeLinkSocial } from "../types";
 import { isValidUrl } from "../util/utils";
 import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
+import { updateProfile } from "../api/DevTreeaPI";
 
 export default function LinkTreeView() {
   const [devtreelinks, setDevtreelinks] = useState(social);
 
+  // mutacion para los enlaces
+  const { mutate } = useMutation({
+    mutationFn: updateProfile,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: () => {
+      toast.success("Actualizado correctamente");
+    },
+  });
   const handleUrChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const uptdatedLink = devtreelinks.map((link) =>
       link.name === e.target.name ? { ...link, url: e.target.value } : link
@@ -23,11 +35,10 @@ export default function LinkTreeView() {
           return { ...link, enabled: !link.enabled };
         } else {
           toast.error("URL no valida");
-          return;
+          return link;
         }
-      } else {
-        return link;
       }
+      return link;
     });
     setDevtreelinks(updateEnableLink);
   };
@@ -42,6 +53,9 @@ export default function LinkTreeView() {
             handleEnableLink={handleEnableLink}
           />
         ))}
+        <button className=" bg-cyan-400 p-2 text-lg w-full uppercase text-slate-600 rounded-lg font-bold">
+          Guardar cambios
+        </button>
       </div>
     </>
   );

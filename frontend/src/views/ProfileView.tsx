@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import ErrorMessage from "../components/ErrorMessage";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { ProfileForm, UserType } from "../types";
-import { updateUser, uploadImage } from "../api/DevTreeaPI";
+import { updateProfile, uploadImage } from "../api/DevTreeaPI";
 import { toast } from "sonner";
 
 export default function ProfileView() {
@@ -20,8 +20,8 @@ export default function ProfileView() {
     },
   });
 
-  const updateProfile = useMutation({
-    mutationFn: updateUser,
+  const updateProfileUser = useMutation({
+    mutationFn: updateProfile,
     onError: (error) => {
       toast.error(error.message);
     },
@@ -53,7 +53,7 @@ export default function ProfileView() {
   });
   const handleUserProfileSubmit = (formData: ProfileForm) => {
     console.log(formData);
-    updateProfile.mutate(formData);
+    updateProfileUser.mutate(formData);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

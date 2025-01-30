@@ -3,8 +3,9 @@ export type UserType = {
     email: string;
     handle: string;
     _id: string;
-    description:string
-    image: string
+    description:string;
+    image: string;
+    links: string;
 }
 
 export type ProfileForm = Pick<UserType, 'handle' | 'description'>

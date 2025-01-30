@@ -8,7 +8,7 @@ export function isValidUrl (url: string) {
         new URL(url)
         return true
     } catch (error) {
-        console.log('entro')
+        console.log('entro', error)
         //console.log('error', error)
         return false
     }

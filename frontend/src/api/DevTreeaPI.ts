@@ -20,7 +20,7 @@ export async function getUser() {
 }
 
 // para el perfil 
-export async function updateUser(formData: ProfileForm) {
+export async function updateProfile(formData: ProfileForm) {
    
   try {
     // tiene un interceptor dentro de axios.ts
