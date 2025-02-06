@@ -52,7 +52,9 @@ export default function ProfileView() {
     },
   });
   const handleUserProfileSubmit = (formData: ProfileForm) => {
-    console.log(formData);
+    const user: UserType = queryClient.getQueryData(["user"])!;
+    user.description = formData.description;
+    user.handle = formData.handle;
     updateProfileUser.mutate(formData);
   };
 

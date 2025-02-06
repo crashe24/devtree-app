@@ -1,12 +1,45 @@
+/**
+ * `DevTree` es un componente funcional de React que renderiza la página de perfil de un usuario.
+ * Muestra el handle del usuario, la imagen de perfil, la descripción y una lista de enlaces de redes sociales habilitados.
+ * También incluye pestañas de navegación y un enlace para visitar el perfil del usuario.
+ *
+ * @component
+ * @param {DevTreeProps} props - Las props del componente.
+ * @param {UserType} props.data - Los datos del usuario a mostrar.
+ *
+ * @returns {JSX.Element} El componente renderizado.
+ *
+ * @example
+ * const userData = {
+ *   handle: "user123",
+ *   image: "path/to/image.jpg",
+ *   description: "Esta es una descripción del usuario",
+ *   links: JSON.stringify([{ url: "https://example.com", enabled: true }])
+ * };
+ *
+ * <DevTree data={userData} />
+ */
 import { Link, Outlet } from "react-router-dom";
 import NavigationTabs from "./NavigationTabs";
 import { Toaster } from "sonner";
-import { UserType } from "../types";
+import { SocialNetworkType, UserType } from "../types";
+import { useState, useEffect } from "react";
+import DevTreeLink from "./DevTreeLink";
 
 type DevTreeProps = {
   data: UserType;
 };
 export default function DevTree({ data }: DevTreeProps) {
+  const [enableLinks, setEnabledLinks] = useState<SocialNetworkType[]>(
+    JSON.parse(data.links).filter((link: SocialNetworkType) => link.enabled)
+  );
+
+  useEffect(() => {
+    setEnabledLinks(
+      JSON.parse(data.links).filter((link: SocialNetworkType) => link.enabled)
+    );
+  }, [data]);
+
   return (
     <>
       <header className="bg-slate-800 py-5">
@@ -54,6 +87,11 @@ export default function DevTree({ data }: DevTreeProps) {
               <p className=" text-center text-lg font-black text-white">
                 {data.description}
               </p>
+              <div className=" text- flex flex-col mt-20 gap-5">
+                {enableLinks.map((linkItem) => (
+                  <DevTreeLink key={linkItem.url} data={linkItem} />
+                ))}
+              </div>
             </div>
           </div>
         </main>
