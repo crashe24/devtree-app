@@ -4,6 +4,7 @@
 
 // se habiliata react-query en toda la aplicacion de forma global
 
+// dndkit npm i @dnd-kit/core @dnd-kit/modifiers @dnd-kit/sortable @dnd-kit/utilities
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 

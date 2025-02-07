@@ -32,7 +32,7 @@
 import { useEffect, useState } from "react";
 import { social } from "../data/social";
 import { DevTreeInput } from "../components/DevTreeInput";
-import { DevTreeLinkSocial, UserType } from "../types";
+import { DevTreeLinkSocial, SocialNetworkType, UserType } from "../types";
 import { isValidUrl } from "../util/utils";
 import { toast } from "sonner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -82,6 +82,8 @@ export default function LinkTreeView() {
     });
   };
 
+  const links: SocialNetworkType[] = JSON.parse(userGlobal.links);
+
   const handleEnableLink = (name: DevTreeLinkSocial["name"]) => {
     const updateEnableLinks = devtreelinks.map((link) => {
       if (link.name === name) {
@@ -95,13 +97,62 @@ export default function LinkTreeView() {
       return link;
     });
     setDevtreelinks(updateEnableLinks);
+    let updatedItems: SocialNetworkType[] = [];
+
+    const selectSocialNetwork = updateEnableLinks.find(
+      (link) => link.name === name
+    );
+    if (selectSocialNetwork?.enabled) {
+      //toast.success("Enlace habilitado");
+      const id = links.filter((link) => link.enabled).length + 1;
+      if (links.some((link) => link.name === name)) {
+        updatedItems = links.map((link) => {
+          if (link.name === name) {
+            return {
+              ...link,
+              enabled: true,
+              id,
+            };
+          } else {
+            return link;
+          }
+        });
+      } else {
+        const newItem = {
+          ...selectSocialNetwork,
+          id: links.length + 1,
+        };
+        updatedItems = [...links, newItem];
+      }
+    } else {
+      const indextoUpdate = links.findIndex((link) => link.name === name);
+      updatedItems = links.map((link) => {
+        if (link.name === name) {
+          return {
+            ...link,
+            id: 0,
+            enabled: false,
+          };
+        } else if (link.id > indextoUpdate) {
+          return {
+            ...link,
+            id: link.id - 1,
+          };
+        } else {
+          return link;
+        }
+      });
+      console.log("indextoUpdate", indextoUpdate);
+    }
+
     queryClient.setQueryData(["user"], (prevData: UserType) => {
       return {
         ...prevData,
-        links: JSON.stringify(updateEnableLinks),
+        links: JSON.stringify(updatedItems),
       };
     });
   };
+
   return (
     <>
       <div className=" space-y-5">
