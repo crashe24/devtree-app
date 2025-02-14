@@ -25,6 +25,13 @@ import { Toaster } from "sonner";
 import { SocialNetworkType, UserType } from "../types";
 import { useState, useEffect } from "react";
 import DevTreeLink from "./DevTreeLink";
+import { DndContext, DragEndEvent, closestCenter } from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 
 type DevTreeProps = {
   data: UserType;
@@ -39,6 +46,27 @@ export default function DevTree({ data }: DevTreeProps) {
       JSON.parse(data.links).filter((link: SocialNetworkType) => link.enabled)
     );
   }, [data]);
+
+  const queryClient: QueryClient = useQueryClient();
+  /* funcion que hace que se reordenen los links activos*/
+  const handleDragEnd = (e: DragEndEvent) => {
+    const { active, over } = e;
+    if (over && over.id) {
+      const prevIndex = enableLinks.findIndex((link) => link.id === active.id);
+      const newIndex = enableLinks.findIndex((link) => link.id === over.id);
+      const order = arrayMove(enableLinks, prevIndex, newIndex);
+      // tomamos los links deshabilitados
+      const disablelinks: SocialNetworkType[] = JSON.parse(data.links).filter(
+        (item: SocialNetworkType) => !item.enabled
+      );
+      const totalLinks = [...order, ...disablelinks];
+      setEnabledLinks(order);
+      // escribir en  la cache
+      queryClient.setQueryData(["user"], (prevData: UserType) => {
+        return { ...prevData, links: JSON.stringify(totalLinks) };
+      });
+    }
+  };
 
   return (
     <>
@@ -56,6 +84,7 @@ export default function DevTree({ data }: DevTreeProps) {
             </button>
           </div>
         </div>
+        ß
       </header>
       <div className="bg-gray-100  min-h-screen py-10">
         <main className="mx-auto max-w-5xl p-10 md:p-0">
@@ -63,7 +92,7 @@ export default function DevTree({ data }: DevTreeProps) {
           <div className="flex justify-end">
             <Link
               className="font-bold text-right text-slate-800 text-2xl"
-              to={""}
+              to={`/${data.handle}`}
               target="_blank"
               rel="noreferrer noopener"
             >
@@ -87,11 +116,24 @@ export default function DevTree({ data }: DevTreeProps) {
               <p className=" text-center text-lg font-black text-white">
                 {data.description}
               </p>
-              <div className=" text- flex flex-col mt-20 gap-5">
-                {enableLinks.map((linkItem) => (
-                  <DevTreeLink key={linkItem.url} data={linkItem} />
-                ))}
-              </div>
+
+              {/* drag and drop */}
+              <DndContext
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <div className=" text- flex flex-col mt-20 gap-5">
+                  <SortableContext
+                    items={enableLinks}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    {enableLinks.map((linkItem) => (
+                      <DevTreeLink key={linkItem.url} data={linkItem} />
+                    ))}
+                  </SortableContext>
+                </div>
+              </DndContext>
+              {/* drag and drop */}
             </div>
           </div>
         </main>

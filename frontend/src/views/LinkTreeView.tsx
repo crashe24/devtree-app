@@ -91,19 +91,19 @@ export default function LinkTreeView() {
           return { ...link, enabled: !link.enabled };
         } else {
           toast.error("URL no valida");
-          return link;
         }
       }
       return link;
     });
+    //console.log("updateEnableLinks", updateEnableLinks);
     setDevtreelinks(updateEnableLinks);
+    //se inicia el arreglo en vacio
     let updatedItems: SocialNetworkType[] = [];
 
     const selectSocialNetwork = updateEnableLinks.find(
       (link) => link.name === name
     );
     if (selectSocialNetwork?.enabled) {
-      //toast.success("Enlace habilitado");
       const id = links.filter((link) => link.enabled).length + 1;
       if (links.some((link) => link.name === name)) {
         updatedItems = links.map((link) => {
@@ -120,11 +120,12 @@ export default function LinkTreeView() {
       } else {
         const newItem = {
           ...selectSocialNetwork,
-          id: links.length + 1,
+          id,
         };
         updatedItems = [...links, newItem];
       }
     } else {
+      console.log("deshabilitado");
       const indextoUpdate = links.findIndex((link) => link.name === name);
       updatedItems = links.map((link) => {
         if (link.name === name) {
@@ -133,7 +134,11 @@ export default function LinkTreeView() {
             id: 0,
             enabled: false,
           };
-        } else if (link.id > indextoUpdate) {
+        } else if (
+          link.id > indextoUpdate &&
+          indextoUpdate !== 0 &&
+          link.id === 1
+        ) {
           return {
             ...link,
             id: link.id - 1,
@@ -142,9 +147,10 @@ export default function LinkTreeView() {
           return link;
         }
       });
-      console.log("indextoUpdate", indextoUpdate);
     }
 
+    console.log("uppdateLinkFinal", updatedItems);
+    // almacenar en la cache
     queryClient.setQueryData(["user"], (prevData: UserType) => {
       return {
         ...prevData,
@@ -166,7 +172,7 @@ export default function LinkTreeView() {
         ))}
         <button
           className=" bg-cyan-400 p-2 text-lg w-full uppercase text-slate-600 rounded-lg font-bold"
-          onClick={() => mutate(userGlobal)}
+          onClick={() => mutate(queryClient.getQueryData(["user"])!)}
         >
           Guardar cambios
         </button>

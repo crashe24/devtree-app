@@ -8,6 +8,7 @@ export type UserType = {
     links: string;
 }
 
+export type UserHandle = Pick<UserType, 'description' | 'handle' | 'image' | 'links' | 'name'>
 export type ProfileForm = Pick<UserType, 'handle' | 'description'>
 
 export type RegisterForm = Pick<UserType, 'handle'| 'email'| 'name'> & {

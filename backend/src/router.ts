@@ -1,6 +1,6 @@
 // 3 es el router.ts
 import { Router } from "express";
-import { createAccount, getUser, login, updateProfile, uploadImage } from "./handlers";
+import { createAccount, getUser, getYUserByHandle, login, updateProfile, uploadImage } from "./handlers";
 import { body } from "express-validator";
 import { handleInputErrors } from "./midleware/validation";
 import { authenticate } from "./midleware/auth";
@@ -44,4 +44,6 @@ router.patch('/user',
     updateProfile)
 
 router.post('/user/image',authenticate,uploadImage)
+
+router.get('/:handle', getYUserByHandle )
 export default router;
