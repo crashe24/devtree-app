@@ -13,8 +13,6 @@ import api from "../config/axios";
 export default function RegisterView() {
   const location = useLocation();
   const navigate = useNavigate();
-  // console.log("location", location.state.handle);
-  //toast("hola desde toast");
   const initialValues: RegisterForm = {
     name: "",
     email: "",
@@ -32,7 +30,6 @@ export default function RegisterView() {
 
   const password_reg = watch("password");
   const handleRegister = async (formData: RegisterForm) => {
-    console.log("formData", formData);
     try {
       const { data } = await api.post(`/auth/register`, formData);
       toast.success(data);

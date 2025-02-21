@@ -33,6 +33,18 @@ export async function updateProfile(formData: ProfileForm) {
     }
 }
 
+export async function login( formData: {email: string, password: string}) {
+  try {
+    const { data } = await api.post(`/auth/login`, formData);
+    return data  
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      console.log("error", error.response.data.error);
+      throw new Error(error.response.data.error)
+    }
+  }
+}
+
 export async function uploadImage (file: File) {
   const formData = new FormData()
   formData.append('file',file)
@@ -63,7 +75,6 @@ export async function getUserByHandle( handle: string) {
 
 export async function searchByHandle( handle: string) {
   try {
-   // console.log('handle', handle);
     const {data} = await api.post<string>(`/search`, {handle})
     return data 
   } catch (error) {
