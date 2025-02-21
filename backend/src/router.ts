@@ -1,6 +1,6 @@
 // 3 es el router.ts
 import { Router } from "express";
-import { createAccount, getUser, getYUserByHandle, login, updateProfile, uploadImage } from "./handlers";
+import { createAccount, getUser, getYUserByHandle, login, searchByHandle, updateProfile, uploadImage } from "./handlers";
 import { body } from "express-validator";
 import { handleInputErrors } from "./midleware/validation";
 import { authenticate } from "./midleware/auth";
@@ -38,7 +38,6 @@ router.get('/user', authenticate, getUser)
 
 router.patch('/user', 
     body('handle').notEmpty().withMessage('handle vacio'),
-    body('description').notEmpty().withMessage('descripcion vacio'),
     handleInputErrors,
     authenticate, 
     updateProfile)
@@ -46,4 +45,8 @@ router.patch('/user',
 router.post('/user/image',authenticate,uploadImage)
 
 router.get('/:handle', getYUserByHandle )
+router.post('/search', 
+    body('handle').notEmpty().withMessage('el handle es obligartorio'),
+    handleInputErrors,
+    searchByHandle)
 export default router;

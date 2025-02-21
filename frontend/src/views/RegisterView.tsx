@@ -2,7 +2,7 @@
 // axios o fetch api npm i axios
 // toast libreria sonner npm i sonner
 
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../components/ErrorMessage";
 import { RegisterForm } from "../types";
@@ -11,11 +11,14 @@ import { toast } from "sonner";
 import api from "../config/axios";
 
 export default function RegisterView() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  // console.log("location", location.state.handle);
   //toast("hola desde toast");
   const initialValues: RegisterForm = {
     name: "",
     email: "",
-    handle: "",
+    handle: location?.state?.handle || "",
     password: "",
     password_confirmation: "",
   };
@@ -31,12 +34,10 @@ export default function RegisterView() {
   const handleRegister = async (formData: RegisterForm) => {
     console.log("formData", formData);
     try {
-      //const { data } = await axios.post(
-      //`${import.meta.env.VITE_API_URL}/auth/register`,
       const { data } = await api.post(`/auth/register`, formData);
-      //console.log("response", data);
       toast.success(data);
       reset();
+      navigate("/auth/login");
     } catch (error) {
       if (isAxiosError(error) && error.response) {
         console.log("error", error.response.data.error);

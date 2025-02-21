@@ -18,6 +18,7 @@ import formidable, {} from 'formidable'
 import { generateJWT } from "../utils/jwt";
 import cloudinary from '../config/cloudinary';
 import { v4 as uuid} from 'uuid'
+import { handleInputErrors } from '../midleware/validation';
  
 
 export const createAccount = async (req: Request , res: Response) => {
@@ -160,3 +161,21 @@ export const uploadImage = (req:Request, res:Response) => {
         res.status(500).json({error: errorRef.message})
     }
  }
+ export const searchByHandle = async( req:Request, res: Response) => {
+    try {
+        const handle = req.body.handle
+        const userExist = await User.findOne({handle})
+        if (userExist) {
+            const error = new Error(`${handle} ya registrado!!!`)
+            res.status(409).json({error: error.message})
+            return
+        }
+        console.log('handle', handle)
+        res.send(`${handle} esta disponible!!!`)
+
+    } catch (error) {
+        const errorRef = new  Error('Hubo un error handle'.concat(error))
+        res.status(500).json({error: errorRef.message})
+    }
+ }
+

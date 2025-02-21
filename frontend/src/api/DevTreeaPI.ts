@@ -3,6 +3,7 @@
 import { isAxiosError } from "axios";
 import api from "../config/axios";
 import { ProfileForm, UserHandle, UserType } from "../types";
+import { searchByHandle } from '../../../backend/src/handlers/index';
 
 export async function getUser() {
    
@@ -52,6 +53,19 @@ export async function getUserByHandle( handle: string) {
   try {
    // console.log('handle', handle);
     const {data} = await api.get<UserHandle>(`/${handle}`)
+    return data 
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      console.log("error", error.response.data.error);
+      throw new Error(error.response.data.error)
+    }
+  }
+}
+
+export async function searchByHandle( handle: string) {
+  try {
+   // console.log('handle', handle);
+    const {data} = await api.post<string>(`/search`, {handle})
     return data 
   } catch (error) {
     if (isAxiosError(error) && error.response) {
