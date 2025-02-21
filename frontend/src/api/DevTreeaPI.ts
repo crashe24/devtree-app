@@ -3,7 +3,6 @@
 import { isAxiosError } from "axios";
 import api from "../config/axios";
 import { ProfileForm, UserHandle, UserType } from "../types";
-import { searchByHandle } from '../../../backend/src/handlers/index';
 
 export async function getUser() {
    

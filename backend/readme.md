@@ -58,13 +58,106 @@ Este proyecto crea un servidor básico utilizando Express. El servidor responde 
 
 - `index.js`: Archivo principal que configura y ejecuta el servidor Express.
 
+### librerias utillizadas para backend
+
+### Para trabakar con modulos \*/
+
+--package.json
+--type: module
+
+```bash
+ npm i -D typescript ts-node
+```
+
+--crear el archivo tsconfig.json
+--cambiar la extension a .ts
+--quitar el type module
+
+### correr la aplicacion
+
+```bash
+ npm run dev
+ npm i express
+ npm i --save-dev @types/express
+```
+
+## Compilar codigo de ts a js
+
+```bash
+ tsc en el package.json
+
+```
+
+## Para manejar colores en la terminal
+
+--1 es el index.ts
+
+```bash
+npm i colors
+```
+
+### base de datos moongose
+
+--mongodb base de datos
+--mongoose orm
+--dotenv libreria para manejar los archivos de variables
+--cors libreria para el manejo de la seguridad de cors
+
+```bash
+ npm i mongoose
+ npm i dotenv
+ npm i cors
+ npm i -D @types/cors
+```
+
+### libreria para encriptar
+
+```bash
+npm i --save-dev @types/bcryptjs
+```
+
 ## dependencias para imagenes
 
-cloudynary
-npm i cloudinary
-formidable libreria para utilizar permite que express permita la subida de archivos
-npm i formidable
+### Sitio para subir imagenes cloudinary
 
-cloud_name: process.env.CLOUDINARY_NAME,
-api_key: process.env.CLOUDINARY_KEY,
-api_secret: process.env.CLOUDINARY_SECRET, // Click 'View API Keys' above to copy your API secret
+```bash
+npm i cloudinary
+```
+
+--hashear el password
+
+```bash
+ npm i bcryptjs
+```
+
+-- Libreria para generar un slug o handle unico
+
+```bash
+ npm i slug
+ npm i --save-dev @types/slug
+```
+
+-- Libreria para validar errores
+
+```bash
+ npm i express-validator
+```
+
+-- Libreria para generar el jwt
+
+```bash
+ npm i jsonwebtoken
+ npm i --save-dev @types/jsonwebtoken"
+```
+
+## Libreria para que express pueda subir imagenes formidable
+
+```bash
+npm i cloudinary
+npm i formidable
+npm i --save-dev @types/formidable
+```
+
+-- cloud_name: process.env.CLOUDINARY_NAME,
+-- api_key: process.env.CLOUDINARY_KEY,
+-- api_secret: process.env.CLOUDINARY_SECRET, // Click 'View API Keys' above to copy your API secret
