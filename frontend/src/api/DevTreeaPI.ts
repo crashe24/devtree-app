@@ -5,7 +5,6 @@ import api from "../config/axios";
 import { ProfileForm, RegisterForm, UserHandle, UserType } from "../types";
 
 export async function getUser() {
-   
     try {
       // tiene un interceptor dentro de axios.ts
       const { data } = await api.get<UserType>(`/user`);

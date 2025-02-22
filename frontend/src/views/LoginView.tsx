@@ -28,21 +28,16 @@ export default function LoginView() {
       toast.error(error.message);
     },
     onSuccess: (data) => {
-      localStorage.setItem("AUTH_TOKEN", data);
-      navigate("/admin");
+      if (data) {
+        localStorage.setItem("AUTH_TOKEN", data);
+        navigate("/admin");
+        reset();
+      }
     },
   });
 
-  const handleLogin = async (formData: LoginForm) => {
-    try {
-      mutate(formData);
-
-      reset();
-    } catch (error) {
-      if (isAxiosError(error) && error.response) {
-        toast.error(error.response.data.error);
-      }
-    }
+  const handleLogin = (formData: LoginForm) => {
+    mutate(formData);
   };
   return (
     <>

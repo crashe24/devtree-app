@@ -19,7 +19,7 @@ export default function AppLayout() {
   const { data, isLoading, isError } = useQuery({
     queryFn: getUser,
     queryKey: ["user"],
-    retry: 2, // cuantas veces se tiene que realizar el reintento de consulta por defecto son 3
+    retry: 3, // cuantas veces se tiene que realizar el reintento de consulta por defecto son 3
     refetchOnWindowFocus: false, // que no haga un re consulta cuando se salga de la pagina y se vuelva a ingresar
   });
 
