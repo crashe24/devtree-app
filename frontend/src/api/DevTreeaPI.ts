@@ -12,7 +12,6 @@ export async function getUser() {
        return data 
       } catch (error) {
         if (isAxiosError(error) && error.response) {
-          //console.log("error", error.response.data.error);
           throw new Error(error.response.data.error)
         }
       }
@@ -62,7 +61,6 @@ export async function uploadImage (file: File) {
 
 export async function getUserByHandle( handle: string) {
   try {
-   // console.log('handle', handle);
     const {data} = await api.get<UserHandle>(`/${handle}`)
     return data 
   } catch (error) {

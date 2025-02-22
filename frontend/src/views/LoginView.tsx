@@ -39,7 +39,6 @@ export default function LoginView() {
       reset();
     } catch (error) {
       if (isAxiosError(error) && error.response) {
-        console.log("error", error.response.data.error);
         toast.error(error.response.data.error);
       }
     }

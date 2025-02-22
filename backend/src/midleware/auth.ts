@@ -20,7 +20,6 @@ export const authenticate = async(req: Request, res: Response, next: NextFunctio
          res.status(401).json({error: error.message})
          return
      }
-     console.log('entro')
      const [, token] = bearer.split(' ')
      if(!token) {
         const error = new Error('No autorizado')
@@ -31,15 +30,11 @@ export const authenticate = async(req: Request, res: Response, next: NextFunctio
     try {
         const result = jwt.verify(token, process.env.JWT_SECRET)
         if (typeof result ==='object' && result.id){
-            //console.log('result.id', result.id)
-            //const user = await User.findById(result.id).select('name handle email')
             const user = await User.findById(result.id).select('-password')
-            //console.log('user', user)
             if (!user) {
                 const error = new Error('Usuario no existe')
                 res.status(404).json({error: error.message})
             }
-            //res.status(200).json({message: user})
             req.user = user 
             next()
             

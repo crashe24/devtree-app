@@ -40,7 +40,6 @@ export default function ProfileView() {
     },
     onSuccess: (data) => {
       //toast.success(data);
-      // console.log("data", data);
       //queryClient.invalidateQueries({ queryKey: ["user"] });
       //optimistic queries
       queryClient.setQueryData(["user"], (prevData: UserType) => {
