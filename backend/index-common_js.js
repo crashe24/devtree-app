@@ -10,7 +10,6 @@
 
 // crear un servidor
 const express = require('express')
-//console.log('express', express)
 // crear una instancia de express
 const app = express()
 

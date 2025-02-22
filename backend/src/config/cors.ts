@@ -2,10 +2,7 @@ import {CorsOptions } from 'cors'
 
 export const corsConfig: CorsOptions = {
     origin: function(origin, callback) {
-        console.log('origin', origin)
         // vector de argumentos para permitir ejecutar desde un cliente de postman 
-        console.log('process.argv', process.argv)
-        console.log('process.argv', process.argv[2])
         const whitelist = []
         // dominios permitidos 
         whitelist.push(process.env.FRONTEND_URL)

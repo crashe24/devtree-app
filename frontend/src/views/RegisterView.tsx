@@ -6,9 +6,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "../components/ErrorMessage";
 import { RegisterForm } from "../types";
-import { isAxiosError } from "axios";
 import { toast } from "sonner";
-import api from "../config/axios";
+import { useMutation } from "@tanstack/react-query";
+import { registerUser } from "../api/DevTreeaPI";
 
 export default function RegisterView() {
   const location = useLocation();
@@ -29,18 +29,31 @@ export default function RegisterView() {
   } = useForm({ defaultValues: initialValues });
 
   const password_reg = watch("password");
-  const handleRegister = async (formData: RegisterForm) => {
-    try {
-      const { data } = await api.post(`/auth/register`, formData);
+
+  const { mutate } = useMutation({
+    mutationFn: registerUser,
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (data) => {
       toast.success(data);
       reset();
       navigate("/auth/login");
-    } catch (error) {
-      if (isAxiosError(error) && error.response) {
-        console.log("error", error.response.data.error);
-        toast.error(error.response.data.error);
-      }
-    }
+    },
+  });
+  const handleRegister = async (formData: RegisterForm) => {
+    mutate(formData);
+    // try {
+    //   const { data } = await api.post(`/auth/register`, formData);
+    //   toast.success(data);
+    //   reset();
+    //   navigate("/auth/login");
+    // } catch (error) {
+    //   if (isAxiosError(error) && error.response) {
+    //     console.log("error", error.response.data.error);
+    //     toast.error(error.response.data.error);
+    //   }
+    // }
   };
 
   return (

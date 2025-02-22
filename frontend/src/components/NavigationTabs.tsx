@@ -20,7 +20,6 @@ export default function NavigationTabs() {
 
   // funcion para navegar entre select en modo movil
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    //console.log("e.target.value", e.target.value);
     navigate(e.target.value);
   };
 

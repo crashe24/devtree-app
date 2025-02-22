@@ -20,6 +20,4 @@ export default function HandleView() {
   if (error) return <Navigate to={"/404"} />;
 
   if (data) return <HandleData data={data} />;
-  // console.log("params", handle);
-  //return <div>{handle}</div>;
 }

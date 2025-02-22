@@ -3,13 +3,11 @@ export function classNames(...classes : string[]) {
 }
 
 export function isValidUrl (url: string) {
-    console.log('url', url)
     try {
         new URL(url)
         return true
     } catch (error) {
-        console.log('entro', error)
-        //console.log('error', error)
+        console.log('Error al validar la url', error)
         return false
     }
 }

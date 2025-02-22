@@ -51,7 +51,6 @@ export const createAccount = async (req: Request , res: Response) => {
      user.password = await hashPassword(password)
      user.handle = handle
 
-     console.log('slug(handle)', slug(handle))
      await user.save();
      res.status(201).send('Registro creado correctamente!!!');
 }
@@ -86,7 +85,6 @@ export const login = async (req: Request, res: Response) => {
 
 // el jsonwebtoken se debe enviar en los headers en el bearer
 export const getUser = async(req: Request, res: Response) => {
-     console.log('desde get use', req.user)
      res.send(req.user) 
 }
 
@@ -118,8 +116,7 @@ export const uploadImage = (req:Request, res:Response) => {
     const form = formidable({ multiples: false})
     try {
         form.parse(req,async (err, fields, files)=>{
-            console.log('llego', files.file[0].filepath)
-
+          
             await cloudinary.uploader.upload(files.file[0].filepath,{public_id:`imagen_${uuid()}`},
                 async function( err, result) {
                     if (err) {
@@ -128,7 +125,6 @@ export const uploadImage = (req:Request, res:Response) => {
                         return 
                     }
                     if (result) {
-                        console.log('result.', result.secure_url)
                         req.user.image = result.secure_url
                         await req.user.save()
                         res.json({image: result.secure_url})
@@ -170,7 +166,6 @@ export const uploadImage = (req:Request, res:Response) => {
             res.status(409).json({error: error.message})
             return
         }
-        console.log('handle', handle)
         res.send(`${handle} esta disponible!!!`)
 
     } catch (error) {

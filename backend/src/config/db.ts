@@ -7,7 +7,6 @@ export const connectDB = async () => {
         
         const {connection} = await mongoose.connect(process.env.MONGO_URI)
         const url = `${connection.host}:${connection.port}`
-        //console.log('connection', connection)
         console.log(colors.blue.bold('DB is connected mongodb'), url);
     }
     catch (error) {

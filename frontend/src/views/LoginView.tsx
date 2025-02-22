@@ -95,14 +95,12 @@ export default function LoginView() {
           value="Iniciar Sesión"
         />
       </form>
-      <nav className=" mt-10">
-        <Link
-          className=" text-center text-white text-lg block"
-          to={"/auth/register"}
-        >
-          No tienes cuenta?. Crea una
-        </Link>
-      </nav>
+      <Link
+        className=" text-center text-white text-lg block mt-6"
+        to={"/auth/register"}
+      >
+        No tienes cuenta?. Crea una
+      </Link>
     </>
   );
 }

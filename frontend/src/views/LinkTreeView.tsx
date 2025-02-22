@@ -95,7 +95,6 @@ export default function LinkTreeView() {
       }
       return link;
     });
-    //console.log("updateEnableLinks", updateEnableLinks);
     setDevtreelinks(updateEnableLinks);
     //se inicia el arreglo en vacio
     let updatedItems: SocialNetworkType[] = [];
@@ -125,7 +124,6 @@ export default function LinkTreeView() {
         updatedItems = [...links, newItem];
       }
     } else {
-      console.log("deshabilitado");
       const indextoUpdate = links.findIndex((link) => link.name === name);
       updatedItems = links.map((link) => {
         if (link.name === name) {
@@ -149,7 +147,6 @@ export default function LinkTreeView() {
       });
     }
 
-    console.log("uppdateLinkFinal", updatedItems);
     // almacenar en la cache
     queryClient.setQueryData(["user"], (prevData: UserType) => {
       return {
