@@ -36,6 +36,7 @@ export default function LoginView() {
   const handleLogin = async (formData: LoginForm) => {
     try {
       mutate(formData);
+
       reset();
     } catch (error) {
       if (isAxiosError(error) && error.response) {
